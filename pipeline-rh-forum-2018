@@ -8,55 +8,15 @@ items:
     spec:
       triggers:
           - github:
-              secret: rhf0rUm 
+              secret: rhf0rUm
+            type: Github 
       strategy: 
         jenkinsPipelineStrategy: 
           jenkinsfile: |
               node('maven') {
                   stage ("Get code from gitHub")
                         echo '*** clone github repo ***'
-                        git url : 'https://github.com/demo-redhat-forum-2018/monolith.git'
                    }
-
-                   stage ("Build EAR and copy in Nexus")
-                            writeFile file: 'mvn-settings.xml', text: """
-                            <?xml version="1.0"?>
-                            <settings>
-                            <mirrors>
-                                <mirror>
-                                <id>Nexus</id>
-                                <name>Nexus Public Mirror</name>
-                                <url>${params.NEXUS_MIRROR_URL}</url>
-                                <mirrorOf>*</mirrorOf>
-                                </mirror>
-                            </mirrors>
-                            <servers>
-                                <server>
-                                <id>nexus</id>
-                                <username>${params.NEXUS_USER}</username>
-                                <password>${params.NEXUS_PASSWORD}</password>
-                                </server>
-                            </servers>
-                            </settings>
-                            """
-                            }
-
-                            // The following variables need to be defined at the top level and not inside
-                            // the scope of a stage - otherwise they would not be accessible from other stages.
-                            // Extract version and other properties from the pom.xml
-                    def pom            = readMavenPom file: 'pom.xml'
-                    def packageName    = pom.name
-                    def version        = pom.version
-                    def newVersion     = "${version}-${BUILD_NUMBER}"
-                    def artifactId     = pom.artifactId
-                    def groupId        = pom.groupId
-
-                            // Using Maven build the war file toto
-                            // Do not run tests in this step
-  stage('Build war') {
-    sh "${mvn} clean install -DskipTests=true"
-  }
-
         type: JenkinsPipeline
 kind: List
 metadata: {}
