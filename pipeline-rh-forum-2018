@@ -5,7 +5,10 @@ items:
     kind: BuildConfig
     metadata: 
       name: pipeline-demo1
-    spec: 
+    spec:
+      triggers:
+          - github:
+              secret: rhf0rUm 
       strategy: 
         jenkinsPipelineStrategy: 
           jenkinsfile: |
