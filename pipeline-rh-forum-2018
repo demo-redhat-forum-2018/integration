@@ -1,22 +1,46 @@
-apiVersion: v1
-items: 
-  - 
-    apiVersion: v1
-    kind: BuildConfig
-    metadata: 
-      name: pipeline-demo1
-    spec:
-      triggers:
-          - github:
-              secret: rhf0rUm
-            type: Github 
-      strategy: 
-        jenkinsPipelineStrategy: 
-          jenkinsfile: |
-              node('maven') {
-                  stage ("Get code from gitHub")
-                        echo '*** cloe github repo ioiii***'
-                   }
-        type: JenkinsPipeline
-kind: List
-metadata: {}
+node('maven') {
+            stage ("Get source code"){
+                  echo '*** Build Starting ***'
+                  def mvn = "mvn -s mvn-settings.xml"
+                  git url : 'https://github.com/demo-redhat-forum-2018/monolith.git'
+                  
+                  //write nexus configfile
+                  
+                      writeFile file: 'mvn-settings.xml', text: """
+        <?xml version="1.0"?>
+        <settings>
+          <mirrors>
+            <mirror>
+              <id>Nexus</id>
+              <name>Nexus Public Mirror</name>
+              <url>http://nexus-nexus.ge-apps.openhybridcloud.io/content/groups/rh-forum-2018</url>
+              <mirrorOf>*</mirrorOf>
+            </mirror>
+          </mirrors>
+          <servers>
+            <server>
+              <id>nexus</id>
+              <username>admin</username>
+              <password>admin123</password>
+            </server>
+          </servers>
+        </settings>
+        """
+        }
+          def pom            = readMavenPom file: 'pom.xml'
+          def packageName    = pom.name
+          def version        = pom.version
+          def newVersion     = "${version}-${BUILD_NUMBER}"
+          def artifactId     = pom.artifactId
+          def groupId        = pom.groupId
+
+          // Using Maven build the war file
+          // Do not run tests in this step
+          stage('Build war file') {
+            sh "mvn -s mvn-settings.xml clean install -DskipTests=true"
+          }         
+          
+           stage('Publish to Nexus') {
+            sh "mvn -s mvn-settings.xml deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::https://nexus-registry-nexus.ge-apps.openhybridcloud.io"
+          }
+             }
