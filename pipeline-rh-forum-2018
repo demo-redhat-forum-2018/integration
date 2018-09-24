@@ -48,7 +48,7 @@ items:
                     def artifactId     = pom.artifactId
                     def groupId        = pom.groupId
 
-                            // Using Maven build the war file
+                            // Using Maven build the war file toto
                             // Do not run tests in this step
   stage('Build war') {
     sh "${mvn} clean install -DskipTests=true"
