@@ -15,7 +15,7 @@ items:
           jenkinsfile: |
               node('maven') {
                   stage ("Get code from gitHub")
-                        echo '*** clone github repo ioiii***'
+                        echo '*** cloe github repo ioiii***'
                    }
         type: JenkinsPipeline
 kind: List
