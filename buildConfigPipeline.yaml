@@ -3,7 +3,7 @@ kind: BuildConfig
 metadata:
   creationTimestamp: '2018-09-24T16:32:22Z'
   name: coolstore-pipeline
-  namespace: rh-forum-2018
+  namespace: rh-forum
   resourceVersion: '18927526'
   selfLink: >-
     /apis/build.openshift.io/v1/namespaces/rh-forum-2018/buildconfigs/coolstore-pipeline
