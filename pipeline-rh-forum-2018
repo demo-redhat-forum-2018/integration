@@ -35,7 +35,7 @@ node('maven') {
           def artifactId     = pom.artifactId
           def groupId        = pom.groupId
 
-          // Using Maven build the war file
+          // Using Mav build the war file
           stage('Build war file') {
             sh "mvn -s mvn-settings.xml clean install -DskipTests=true"
           }         
