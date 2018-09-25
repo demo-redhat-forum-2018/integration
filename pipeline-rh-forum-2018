@@ -36,15 +36,14 @@ node('maven') {
           def groupId        = pom.groupId
 
           // Using Maven build the war file
-          // Do not run tests in this step
           stage('Build war file') {
             sh "mvn -s mvn-settings.xml clean install -DskipTests=true"
           }         
           
            stage('Publish to Nexus') {
 
-            echo ${params.NEXUS_USER}}
-             echo ${params.NEXUS_PASSWORD}}
+            echo ${params.NEXUS_USER}
+             echo ${params.NEXUS_PASSWORD}
             sh "mvn -s mvn-settings.xml deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::${params.NEXUS_REPO_URL}"
           }
              }
