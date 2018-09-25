@@ -19,7 +19,7 @@ node('maven') {
   </mirrors>
   <servers>
     <server>
-      <id>nexus</id>
+      <id>coolstore</id>
       <username>${params.NEXUS_USER}</username>
       <password>${params.NEXUS_PASSWORD}</password>
     </server>
