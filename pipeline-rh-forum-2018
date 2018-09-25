@@ -6,26 +6,27 @@ node('maven') {
                   
                   //write nexus configfile
                   
-                  writeFile file: 'mvn-settings.xml', text: """
-        <?xml version="1.0"?>
-        <settings>
-          <mirrors>
-            <mirror>
-              <id>Nexus</id>
-              <name>Nexus Public Mirror</name>
-              <url>http://nexus-nexus.ge-apps.openhybridcloud.io/content/groups/rh-forum-2018</url>
-              <mirrorOf>*</mirrorOf>
-            </mirror>
-          </mirrors>
-          <servers>
-            <server>
-              <id>nexus</id>
-              <username>admin</username>
-              <password>admin123</password>
-            </server>
-          </servers>
-        </settings>
-        """
+                  writeFile file: 'mvn-settings.xml', text: """"
+              <?xml version="1.0"?>
+              <settings>
+                <mirrors>
+                  <mirror>
+                    <id>Nexus</id>
+                    <name>Nexus Public Mirror</name>
+                    <url>${params.NEXUS_MIRROR_URL}</url>
+                    <mirrorOf>*</mirrorOf>
+                  </mirror>
+                </mirrors>
+                <servers>
+                  <server>
+                    <id>nexus</id>
+                    <username>${params.NEXUS_USER}</username>
+                    <password>${params.NEXUS_PASSWORD}</password>
+                  </server>
+                </servers>
+              </settings>
+              """
+       
         }
           def pom            = readMavenPom file: 'pom.xml'
           def packageName    = pom.name
