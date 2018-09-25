@@ -20,8 +20,8 @@ node('maven') {
   <servers>
     <server>
       <id>coolstore</id>
-      <username>${params.NEXUS_USER}</username>
-      <password>${params.NEXUS_PASSWORD}</password>
+      <username>admin</username>
+      <password>admin123</password>
     </server>
   </servers>
 </settings>
