@@ -42,6 +42,9 @@ node('maven') {
           }         
           
            stage('Publish to Nexus') {
+
+            echo ${params.NEXUS_USER}}
+             echo ${params.NEXUS_PASSWORD}}
             sh "mvn -s mvn-settings.xml deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::${params.NEXUS_REPO_URL}"
           }
              }
