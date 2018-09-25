@@ -6,7 +6,7 @@ node('maven') {
                   
                   //write nexus configfile
                   
-                      writeFile file: 'mvn-settings.xml', text: """
+                  writeFile file: 'mvn-settings.xml', text: """
         <?xml version="1.0"?>
         <settings>
           <mirrors>
