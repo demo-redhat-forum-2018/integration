@@ -1,6 +1,6 @@
 node('maven') {
             stage ("Get Source code"){
-                  echo '*** Build tarting ***'
+                  echo '*** Build starting ***'
                   def mvn = "mvn -s mvn-settings.xml"
                   git url : 'https://github.com/demo-redhat-forum-2018/monolith.git'
                   
