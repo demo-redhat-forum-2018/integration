@@ -47,4 +47,28 @@ node('maven') {
              sh "cat pom.xml"
             sh "mvn -s mvn-settings.xml deploy -DskipTests=true -e  -DaltDeploymentRepository=nexus::default::${params.NEXUS_REPO_URL} "
           }
+
+
+           stage('Build OpenShift Image') {
+    // Determine the war filename that we need to use later in the process
+    String warFileName = "${groupId}.${artifactId}"
+    warFileName = warFileName.replace('.', '/')
+    def WAR_FILE_URL = "${params.NEXUS_REPO_URL}/${warFileName}/${version}/${artifactId}-${version}.war"
+    echo "Will use WAR at ${WAR_FILE_URL}"
+
+    // Trigger an OpenShift build in the build environment
+    openshiftBuild bldCfg: params.OPENSHIFT_BUILD_CONFIG, checkForTriggeredDeployments: 'false',
+                   namespace: params.OPENSHIFT_BUILD_PROJECT, showBuildLogs: 'true',
+                   verbose: 'false', waitTime: '', waitUnit: 'sec',
+                   env: [ [ name: 'WAR_FILE_URL', value: "${WAR_FILE_URL}" ] ]
+
+
+    // Tag the new build
+    /*
+    openshiftTag alias: 'false', destStream: params.OPENSHIFT_IMAGE_STREAM, destTag: "${newVersion}",
+                 destinationNamespace: params.OPENSHIFT_BUILD_PROJECT, namespace: params.OPENSHIFT_BUILD_PROJECT,
+                 srcStream: params.OPENSHIFT_IMAGE_STREAM, srcTag: 'latest', verbose: 'false'
+                 */
+  }
+
              }
