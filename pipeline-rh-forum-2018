@@ -45,6 +45,6 @@ node('maven') {
             sh "echo ${params.NEXUS_USER}"
              sh "echo ${params.NEXUS_PASSWORD}"
              sh "cat mvn-settings.xml"
-            sh "mvn -s mvn-settings.xml deploy -DskipTests=true -e -DrepositoryId=coolstore -DaltDeploymentRepository=nexus::default::${params.NEXUS_REPO_URL} "
+            sh "mvn -s mvn-settings.xml deploy -DskipTests=true -e -DrepositoryId=coolstore -DaltDeploymentRepository=coolstore::default::${params.NEXUS_REPO_URL} "
           }
              }
