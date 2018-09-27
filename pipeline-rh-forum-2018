@@ -66,5 +66,14 @@ node('maven') {
                  destinationNamespace: params.OPENSHIFT_BUILD_PROJECT, namespace: params.OPENSHIFT_BUILD_PROJECT,
                  srcStream: params.OPENSHIFT_IMAGE_STREAM, srcTag: 'latest', verbose: 'false'
   }
+     stage('Build OpenShift Image') {
+   openshiftTag alias: 'false', destStream: params.OPENSHIFT_IMAGE_STREAM, srcTag: "${newVersion}",
+                 destinationNamespace: coolstore, namespace: coolstore,
+                 srcStream: params.OPENSHIFT_IMAGE_STREAM, destTag: 'ready-for-testing', verbose: 'false'
+
+    // Trigger a new deployment
+    openshiftDeploy deploymentConfig: coolstore, namespace: coolstore
+
+     }
 
              }

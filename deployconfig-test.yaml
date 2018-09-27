@@ -1,18 +1,16 @@
---- 
-- 
   apiVersion: v1
   kind: DeploymentConfig
   metadata: 
     labels: 
-      app: openshift-tasks
-      template: openshift-tasks
-    name: openshift-tasks
-    namespace: "${TEST_PROJECT}"
+      app: coolstore
+      template: coolstore
+    name: coolstore
+    namespace: rh-forum-2018
   spec: 
     replicas: 1
     selector: 
-      app: openshift-tasks
-      deploymentconfig: openshift-tasks
+      app: coolstore
+      deploymentconfig: coolstore
     strategy: 
       activeDeadlineSeconds: 21600
       resources: {}
@@ -21,15 +19,14 @@
       metadata: 
         creationTimestamp: ~
         labels: 
-          app: openshift-tasks
-          deploymentconfig: openshift-tasks
-          template: openshift-tasks
+          app: coolstore
+          deploymentconfig: coolstore
       spec: 
         containers: 
           - 
-            image: "openshift-tasks:ready-for-testing"
+            image: "coolstore:ready-for-testing"
             imagePullPolicy: IfNotPresent
-            name: openshift-tasks
+            name: coolstore
             ports: 
               - 
                 containerPort: 8080
@@ -47,9 +44,9 @@
       - 
         imageChangeParams: 
           containerNames: 
-            - openshift-tasks
+            - coolstore
           from: 
             kind: ImageStreamTag
-            name: "openshift-tasks:ready-for-testing"
-            namespace: "${TEST_PROJECT}"
+            name: "coolstore:ready-for-testing"
+            namespace: rh-forum-2018
         type: ImageChange
