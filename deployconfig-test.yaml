@@ -1,0 +1,55 @@
+--- 
+- 
+  apiVersion: v1
+  kind: DeploymentConfig
+  metadata: 
+    labels: 
+      app: openshift-tasks
+      template: openshift-tasks
+    name: openshift-tasks
+    namespace: "${TEST_PROJECT}"
+  spec: 
+    replicas: 1
+    selector: 
+      app: openshift-tasks
+      deploymentconfig: openshift-tasks
+    strategy: 
+      activeDeadlineSeconds: 21600
+      resources: {}
+      type: Recreate
+    template: 
+      metadata: 
+        creationTimestamp: ~
+        labels: 
+          app: openshift-tasks
+          deploymentconfig: openshift-tasks
+          template: openshift-tasks
+      spec: 
+        containers: 
+          - 
+            image: "openshift-tasks:ready-for-testing"
+            imagePullPolicy: IfNotPresent
+            name: openshift-tasks
+            ports: 
+              - 
+                containerPort: 8080
+                protocol: TCP
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers: 
+      - 
+        type: ConfigChange
+      - 
+        imageChangeParams: 
+          containerNames: 
+            - openshift-tasks
+          from: 
+            kind: ImageStreamTag
+            name: "openshift-tasks:ready-for-testing"
+            namespace: "${TEST_PROJECT}"
+        type: ImageChange
