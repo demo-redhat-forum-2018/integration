@@ -74,7 +74,7 @@ node('maven') {
     // Trigger a new deployment
 
     echo "deploy"
-    openshiftDeploy deploymentConfig: coolstore, namespace: params.OPENSHIFT_BUILD_PROJECT
+    openshiftDeploy deploymentConfig: 'coolstore', namespace: params.OPENSHIFT_BUILD_PROJECT
 
      }
 
