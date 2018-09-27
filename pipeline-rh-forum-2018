@@ -2,6 +2,7 @@ node('maven') {
             stage ("Get Source code"){
                   echo '*** Build starting ***'
                   def mvn = "mvn -s mvn-settings.xml"
+                  sh "mvn --version"
                   git url : 'https://github.com/demo-redhat-forum-2018/monolith.git'
                   
                   //write Nexus configfile
