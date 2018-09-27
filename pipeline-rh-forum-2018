@@ -1,5 +1,4 @@
 node('maven') {
-  /*
             stage ("Get Source code"){
                   echo '*** Build starting ***'
                   def mvn = "mvn -s mvn-settings.xml"
@@ -49,16 +48,14 @@ node('maven') {
             sh "mvn -s mvn-settings.xml deploy -DskipTests=true -e  -DaltDeploymentRepository=nexus::default::${params.NEXUS_REPO_URL} "
           }
 
-*/
+
            stage('Build OpenShift Image') {
     // Determine the war filename that we need to use later in the process
-    /*
     String warFileName = "${groupId}.${artifactId}"
     warFileName = warFileName.replace('.', '/')
     def WAR_FILE_URL = "${params.NEXUS_REPO_URL}/${warFileName}/${version}/${artifactId}-${version}.war"
     echo "Will use WAR at ${WAR_FILE_URL}"
-    */
-    def WAR_FILE_URL = " http://nexus-fabric.mc-apps.openhybridcloud.io/content/repositories/coolstore/com/redhat/coolstore/monolith/1.0.0-SNAPSHOT/monolith-1.0.0-SNAPSHOT.war"
+
     // Trigger an OpenShift build in the build environment
     openshiftBuild bldCfg: params.OPENSHIFT_BUILD_CONFIG, checkForTriggeredDeployments: 'false',
                    namespace: params.OPENSHIFT_BUILD_PROJECT, showBuildLogs: 'true',
@@ -67,11 +64,10 @@ node('maven') {
 
 
     // Tag the new build
-    /*
+    
     openshiftTag alias: 'false', destStream: params.OPENSHIFT_IMAGE_STREAM, destTag: "${newVersion}",
                  destinationNamespace: params.OPENSHIFT_BUILD_PROJECT, namespace: params.OPENSHIFT_BUILD_PROJECT,
                  srcStream: params.OPENSHIFT_IMAGE_STREAM, srcTag: 'latest', verbose: 'false'
-                 */
   }
 
              }
