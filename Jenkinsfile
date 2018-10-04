@@ -1,6 +1,8 @@
 node('maven') {
 
-    slackSend channel: 'monolith', color: 'good', message: "Good ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+    def appRoute = sh "oc get route jenkins  --template='{{ .spec.host }}'"
+
+    slackSend channel: 'monolith', color: 'good', message: "Le Build  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${appRoute}|Open>)"
 
     stage ("Get Source code"){
     
