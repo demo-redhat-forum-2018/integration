@@ -24,15 +24,15 @@
 
 
 node('maven') {
-    /*
+    
     def newVersion
     def azureURL = env.AZURE_URL
     def azureToken = env.AZURE_TOKEN
-    def ovhURL = ${env.OVH_URL}
+    def ovhURL = "${env.OVH_URL}"
     def ovhToken = env.OVH_TOKEN
     def openShiftTestEnv = env.OPENSHIFT_TEST_ENVIRONMENT
     def openShiftProdEnv = env.OPENSHIFT_PROD_ENVIRONMENT
-    */
+    
     //def appRoute = sh "oc get route jenkins  --template='{{ .spec.host }}'"
    def appRoute =  sh(script: 'oc get route jenkins  --template=\'{{ .spec.host }}\'', returnStdout: true)
    appRoute = "https://${appRoute}"
