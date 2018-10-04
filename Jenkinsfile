@@ -1,7 +1,7 @@
 node('maven') {
 
     //def appRoute = sh "oc get route jenkins  --template='{{ .spec.host }}'"
-   def appRoute =  sh(script: 'oc get route jenkins  --template='{{ .spec.host }}'', returnStdout: true)
+   def appRoute =  sh(script: 'oc get route jenkins  --template=\'{{ .spec.host }\'', returnStdout: true)
     echo "App route ${appRoute}"
 
     slackSend channel: 'monolith', color: 'good', message: "Le Build  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${appRoute}|Open>)"
