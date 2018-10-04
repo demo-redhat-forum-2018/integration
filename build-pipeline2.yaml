@@ -1,0 +1,362 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  creationTimestamp: '2018-10-04T13:56:13Z'
+  labels:
+    template: openshift-tasks
+  name: coolstore-monolith-tasks-pipeline
+  namespace: tasks-build
+spec:
+  nodeSelector: {}
+  output: {}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: step-2
+      uri: 'https://github.com/demo-redhat-forum-2018/monolith.git'
+    type: Git
+  strategy:
+    jenkinsPipelineStrategy:
+      env:
+        - name: OPENSHIFT_IMAGE_STREAM
+          value: coolstore
+        - name: OPENSHIFT_BUILD_CONFIG
+          value: coolstore
+        - name: OPENSHIFT_SERVICE
+          value: coolstore
+        - name: OPENSHIFT_DEPLOYMENT_CONFIG
+          value: coolstore
+        - name: OPENSHIFT_BUILD_PROJECT
+          value: mono-ci-cd
+        - name: OPENSHIFT_TEST_ENVIRONMENT
+          value: mono-test
+        - name: OPENSHIFT_PROD_ENVIRONMENT
+          value: mono-prod
+        - name: OPENSHIFT_TEST_URL
+          value: 'http://${TEST_ROUTE_HOSTNAME}'
+        - name: NEXUS_REPO_URL
+          value: >-
+            http://gitux01.openhybridcloud.io:8081/repository/coolstore-monolith/
+        - name: NEXUS_MIRROR_URL
+          value: 'http://gitux01.openhybridcloud.io:8081/repository/maven-public/'
+        - name: NEXUS_USER
+          value: admin
+        - name: NEXUS_PASSWORD
+          value: admin123
+        - name: OVH_URL
+          value: 'https://openshift.openhybridcloud.io:8443'
+        - name: OVH_TOKEN
+          value: >-
+            eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJoeWJyaWQtY2ktY2QiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiamVua2lucy10b2tlbi1kcXQyaiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJqZW5raW5zIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYTgwNTA2YjYtYzdkMi0xMWU4LThhOTItMDAxYTRhMTYwMTk0Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omh5YnJpZC1jaS1jZDpqZW5raW5zIn0.rlZlp_2xHknQV0yJMyiokCM_5wgjP4b6nhfOYrs2ifAcTxD7lJ01tTDp6EDbtmoBWTPTnGav86woNh1i-tp7CgVUT-4fQO9LbUY8fZp9pbO2_f354FkDKcvsKqmjyw79ckljrj1qDMMlZtTZ6vFU48rEqHeaIOwvFZdSX82xikrS2rguKg0AAihAUPtFuqnAo4Xdhv7QRGlDXJFJgygfHg3T-u5QmovFfKpp7GMYoUPdU2MjW-BrMFbh1DbMNAszYmD-sAurRCT02NyslWeNqcioW4mTERRjfQNEI0tfKBjssdi_zmgSIhZlYJn1etqaIeUmC3dkj0mUweUgN4e4XA
+        - name: AZURE_URL
+          value: 'https://openshift.openhybridcloud.io:8443'
+        - name: AZURE_TOKEN
+          value: >-
+            eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJoeWJyaWQtY2ktY2QiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiamVua2lucy10b2tlbi1kcXQyaiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJqZW5raW5zIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiYTgwNTA2YjYtYzdkMi0xMWU4LThhOTItMDAxYTRhMTYwMTk0Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omh5YnJpZC1jaS1jZDpqZW5raW5zIn0.rlZlp_2xHknQV0yJMyiokCM_5wgjP4b6nhfOYrs2ifAcTxD7lJ01tTDp6EDbtmoBWTPTnGav86woNh1i-tp7CgVUT-4fQO9LbUY8fZp9pbO2_f354FkDKcvsKqmjyw79ckljrj1qDMMlZtTZ6vFU48rEqHeaIOwvFZdSX82xikrS2rguKg0AAihAUPtFuqnAo4Xdhv7QRGlDXJFJgygfHg3T-u5QmovFfKpp7GMYoUPdU2MjW-BrMFbh1DbMNAszYmD-sAurRCT02NyslWeNqcioW4mTERRjfQNEI0tfKBjssdi_zmgSIhZlYJn1etqaIeUmC3dkj0mUweUgN4e4XA
+        - name: QUAY_REGISTRY
+          value: quay.io/demoforum/coolstore-monolith
+        - name: QUAY_USER
+          value: demoforum18
+        - name: QUAY_PASSWORD
+          value: '#redhat123'
+      jenkinsfile: |-
+        #!groovy
+        /*
+         * This pipeline accepts the following parameters :
+         *  - OPENSHIFT_IMAGE_STREAM: The ImageStream name to use to tag the built images
+         *  - OPENSHIFT_BUILD_CONFIG: The BuildConfig name to use
+         *  - OPENSHIFT_SERVICE: The Service object to update (either green or blue)
+         *  - OPENSHIFT_DEPLOYMENT_CONFIG: The DeploymentConfig name to use
+         *  - OPENSHIFT_BUILD_PROJECT: The OpenShift project in which builds are run
+         *  - OPENSHIFT_TEST_ENVIRONMENT: The OpenShift project in which we will deploy the test version
+         *  - OPENSHIFT_PROD_ENVIRONMENT: The OpenShift project in which we will deploy the prod version
+         *  - NEXUS_REPO_URL: The URL of your Nexus repository. Something like http://<nexushostname>/repository/maven-snapshots/
+         *  - NEXUS_MIRROR_URL: The URL of your Nexus public mirror. Something like http://<nexushostname>/repository/maven-all-public/
+         *  - NEXUS_USER: A nexus user allowed to push your software. Usually 'admin'.
+         *  - NEXUS_PASSWORD: The password of the nexus user. Usually 'admin123'.
+         *  - OVH_URL
+         *  - OVH_TOKEN
+         *  - AZURE_URL
+         *  - AZURE_TOKEN
+         *  - QUAY_REGISTRY
+         *  - QUAY_USER
+         *  - QUAY_PASSWORD
+         */
+
+        def newVersion
+        def azureURL = ${AZURE_URL}
+        def azureToken = ${AZURE_TOKEN}
+        def ovhURL = ${OVH_URL}
+        def ovhToken = ${OVH_TOKEN}
+        def openShiftTestEnv = ${OPENSHIFT_TEST_ENVIRONMENT}
+        def openShiftProdEnv = ${OPENSHIFT_PROD_ENVIRONMENT}
+
+        node('maven') {
+
+            stage ("Get Source code"){
+                echo '*** Build starting ***'
+                def mvn = "mvn -s mvn-settings.xml"
+                sh "mvn --version"
+                git url : 'https://github.com/demo-redhat-forum-2018/monolith.git'
+                          
+                //write Nexus configfile
+                writeFile file: 'mvn-settings.xml', text: """
+        <?xml version="1.0"?>
+        <settings>
+          <mirrors>
+            <mirror>
+              <id>Nexus</id>
+              <name>Nexus Public Mirror</name>
+              <url>${params.NEXUS_MIRROR_URL}</url>
+              <mirrorOf>*</mirrorOf>
+            </mirror>
+          </mirrors>
+          <servers>
+            <server>
+              <id>nexus</id>
+              <username>${params.NEXUS_USER}</username>
+              <password>${params.NEXUS_PASSWORD}</password>
+            </server>
+          </servers>
+        </settings>
+        """
+            }
+
+            def pom            = readMavenPom file: 'pom.xml'
+            def packageName    = pom.name
+            def version        = pom.version
+            newVersion     = "${version}-${BUILD_NUMBER}"
+            def artifactId     = pom.artifactId
+            def groupId        = pom.groupId
+
+            // // Using Mav build the war file
+            // stage('Build war file') {
+            //     sh "mvn -s mvn-settings.xml clean install -DskipTests=true"
+            // }         
+            
+            // // Using Maven run the unit tests
+            // stage('Unit Tests') {
+            //   //sh "${mvn} test"
+            //   sh "sleep 5"
+            // }
+
+            // stage('Publish to Nexus') {
+            //     sh "mvn -s mvn-settings.xml deploy -DskipTests=true -DaltDeploymentRepository=nexus::default::${params.NEXUS_REPO_URL}"
+            // }
+
+            // stage('Build OpenShift Image') {
+
+            //     // Determine the war filename that we need to use later in the process
+            //     String warFileName = "${groupId}.${artifactId}"
+            //     warFileName = warFileName.replace('.', '/')
+            //     def WAR_FILE_URL = "${params.NEXUS_REPO_URL}/${warFileName}/${version}/${artifactId}-${version}.war"
+            //     echo "Will use WAR at ${WAR_FILE_URL}"
+
+            //     // Trigger an OpenShift build in the build environment
+            //     openshiftBuild bldCfg: params.OPENSHIFT_BUILD_CONFIG, checkForTriggeredDeployments: 'false',
+            //               namespace: params.OPENSHIFT_BUILD_PROJECT, showBuildLogs: 'true',
+            //               apiURL: params.OVH_URL, authToken: params.OVH_TOKEN,
+            //               verbose: 'false', waitTime: '', waitUnit: 'sec',
+            //               env: [ [ name: 'WAR_FILE_URL', value: "${WAR_FILE_URL}" ] ]
+            // }
+        }
+
+        node('jenkins-slave-skopeo') {
+
+            echo "start jenkins slave skopeo"
+            
+            stage('Promote to TEST') {
+                def from = "docker://${QUAY_REGISTRY}:latest"
+                def to = "docker://${QUAY_REGISTRY}:${newVersion}"
+
+                echo "Now Promoting ${from} -> ${to}"
+                sh """
+                    set +x
+                    skopeo copy --remove-signatures \
+                    --src-creds ${QUAY_USER}:${QUAY_PASSWORD} \
+                    --dest-creds ${QUAY_USER}:${QUAY_PASSWORD}  --dest-tls-verify=false ${from} ${to}
+                """
+            }
+
+            stage('Deploy to TEST') {
+
+                def from = "docker://${QUAY_REGISTRY}:${newVersion}"
+                def to = "docker://${QUAY_REGISTRY}:promoteToTest"
+
+                echo "Now Promoting ${from} -> ${to}"
+                sh """
+                    set +x
+                    skopeo copy --remove-signatures \
+                    --src-creds ${QUAY_USER}:${QUAY_PASSWORD} \
+                    --dest-creds ${QUAY_USER}:${QUAY_PASSWORD}  --dest-tls-verify=false ${from} ${to}
+                """
+
+                // Trigger a new deployment
+                openshift.withCluster(azureURL, azureToken) {
+                    openshift.withProject(openShiftTestEnvironment) {
+                        def dc = openshift.selector('dc', 'coolstore')
+                        dc.rollout()
+                        dc.rollout().status()
+                    }
+                }
+                //openshiftDeploy deploymentConfig: params.OPENSHIFT_DEPLOYMENT_CONFIG, namespace: params.OPENSHIFT_TEST_ENVIRONMENT, apiURL: params.AZURE_URL, authToken: params.AZURE_TOKEN
+
+                // PLACEHOLDER SLACK (Send TEST Route URL)
+            }
+
+            stage('Integration Test') {
+                sh "sleep 7"        
+            }
+
+            stage('Security Test') {
+                sh "sleep 4"        
+            }
+
+            stage('Performance Test') {
+                sh "sleep 6"        
+            }
+
+            stage('Promote to PROD') {
+                def from = "docker://${QUAY_REGISTRY}:${newVersion}"
+                def to = "docker://${QUAY_REGISTRY}:promoteToProd"
+
+                echo "Now Promoting ${from} -> ${to}"
+                sh """
+                    set +x
+                    skopeo copy --remove-signatures \
+                    --src-creds ${QUAY_USER}:${QUAY_PASSWORD} \
+                    --dest-creds ${QUAY_USER}:${QUAY_PASSWORD}  --dest-tls-verify=false ${from} ${to}
+                """
+            }
+
+            stage('Deploy to PROD') {
+                // Yes, this is mandatory for the next command to succeed. Don't know why...
+                //sh "oc project ${params.OPENSHIFT_PROD_ENVIRONMENT}"
+
+                // Extract the route target (xxx-green or xxx-blue)
+                // This will be used by getCurrentTarget and getNewTarget methods
+                //sh "oc get route coolstore -n ${params.OPENSHIFT_PROD_ENVIRONMENT} -o template --template='{{ .spec.to.weight }}' > weight"
+
+                // Flip/flop target (green goes blue and vice versa)
+                //def newTarget = getNewTarget()
+
+                openshift.withCluster(ovhURL, ovhToken) {
+                    openshift.withProject(openShiftProdEnv) {
+                        def coolstoreroute = openshift.selector('route',"coolstore")
+                        def weight = coolstoreroute.spec.to.weight
+                        echo ${weight}
+                        echo ${weight} > weight
+                        def newTarget = getNewTarget()
+                        def dc = openshift.selector('dc', "${params.OPENSHIFT_DEPLOYMENT_CONFIG}-${newTarget}")
+
+                        dc.rollout()
+                        dc.rollout().status()
+                    }
+                }
+
+                // Trigger a new deployment
+                // openshiftDeploy deploymentConfig: "${params.OPENSHIFT_DEPLOYMENT_CONFIG}-${newTarget}", namespace: params.OPENSHIFT_PROD_ENVIRONMENT, apiURL: params.OVH_URL, authToken: params.OVH_TOKEN
+                // openshiftVerifyDeployment deploymentConfig: "${params.OPENSHIFT_DEPLOYMENT_CONFIG}-${newTarget}", namespace: params.OPENSHIFT_PROD_ENVIRONMENT, apiURL: params.OVH_URL, authToken: params.OVH_TOKEN
+            }
+
+
+            stage('Switch over to new Version') {
+                // Determine which is of green or blue is active
+                //def newTarget = getNewTarget()
+                //def currentTarget = getCurrentTarget()
+
+                openshift.withCluster(${OVH_URL}, ${OVH_TOKEN}) {
+                    openshift.withProject("${OPENSHIFT_PROD_ENVIRONMENT}") {
+                        def coolstoreroute = openshift.selector('route',"coolstore")
+                        
+                        def newTarget = getNewTarget()
+                        def currentTarget = getCurrentTarget()
+
+                        input "Switch Production from coolstore-${currentTarget} to coolstore-${newTarget} ?"
+
+                        if (getBlueWeight() == "0"){
+                            coolstoreroute.spec.to.weight='100'
+                            coolstoreroute.spec.alternateBackends[0].weight='0'
+                            // Switch blue/green
+                            //sh """
+                            //  oc patch -n \"${params.OPENSHIFT_PROD_ENVIRONMENT}\" route/coolstore --patch '{\"spec\":{\"to\":{\"kind\":\"Service\",\"name\":\"coolstore-blue\",\"weight\":100},\"alternateBackends\":[{\"kind\":\"Service\",\"name\":\"coolstore-green\",\"weight\":0}]}}'
+                            //"""
+                        } else {
+                            coolstoreroute.spec.to.weight='0'
+                            coolstoreroute.spec.alternateBackends[0].weight='100'
+                            // Switch blue/green
+                            //sh """
+                            //  oc patch -n \"${params.OPENSHIFT_PROD_ENVIRONMENT}\" route/coolstore --patch '{\"spec\":{\"to\":{\"kind\":\"Service\",\"name\":\"coolstore-blue\",\"weight\":0},\"alternateBackends\":[{\"kind\":\"Service\",\"name\":\"coolstore-green\",\"weight\":100}]}}'
+                            //"""
+                        }
+
+                        def dc = openshift.selector('dc', "${params.OPENSHIFT_DEPLOYMENT_CONFIG}-${newTarget}")
+
+                        dc.rollout()
+                        dc.rollout().status()
+                    }
+                }
+                // Wait for administrator confirmation
+                //input "Switch Production from coolstore-${currentTarget} to coolstore-${newTarget} ?"
+                // PLACEHOLDER SLACK (Send PROD URL + Input Link)
+
+                // if (getBlueWeight() == "0"){
+                //     // Switch blue/green
+                //     sh """
+                //       oc patch -n \"${params.OPENSHIFT_PROD_ENVIRONMENT}\" route/coolstore --patch '{\"spec\":{\"to\":{\"kind\":\"Service\",\"name\":\"coolstore-blue\",\"weight\":100},\"alternateBackends\":[{\"kind\":\"Service\",\"name\":\"coolstore-green\",\"weight\":0}]}}'
+                //     """
+                // } else {
+                //     // Switch blue/green
+                //     sh """
+                //       oc patch -n \"${params.OPENSHIFT_PROD_ENVIRONMENT}\" route/coolstore --patch '{\"spec\":{\"to\":{\"kind\":\"Service\",\"name\":\"coolstore-blue\",\"weight\":0},\"alternateBackends\":[{\"kind\":\"Service\",\"name\":\"coolstore-green\",\"weight\":100}]}}'
+                //     """
+                // }
+
+                // PLACEHOLDER SLACK
+            }
+        }
+
+        def getCurrentTarget() {
+            def currentTarget = getBlueWeight()
+            echo "current Target :"
+            echo currentTarget
+            if (currentTarget == "0") {
+              currentTarget = "green"
+            } else {
+              currentTarget = "blue"
+            }
+            return currentTarget
+        }
+
+        def getBlueWeight() {
+            def currentWeight = readFile 'weight'
+            return currentWeight
+        }
+
+        // Flip/flop target (green goes blue and vice versa)
+        def getNewTarget() {
+            def currentTarget = getCurrentTarget()
+            def newTarget = ""
+            if (currentTarget == "blue") {
+                newTarget = "green"
+            } else if (currentTarget == "green") {
+                newTarget = "blue"
+            } else {
+                echo "OOPS, wrong target"
+            }
+            echo "new Target :"
+            echo newTarget
+            return newTarget
+        }
+    type: JenkinsPipeline
+  triggers:
+    - github:
+        secret: secret101
+      type: GitHub
+    - generic:
+        secret: secret101
+      type: Generic
+status:
+  lastVersion: 7
