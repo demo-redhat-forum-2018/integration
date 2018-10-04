@@ -2,7 +2,7 @@ node('maven') {
 
     String appRoute = sh "oc get route jenkins  --template='{{ .spec.host }}'"
 
-    echo "App route {$appRoute}"
+    echo "App route ${appRoute}"
 
     slackSend channel: 'monolith', color: 'good', message: "Le Build  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${appRoute}|Open>)"
 
