@@ -1,0 +1,15 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: skopeo
+  namespace: mono-ci-cd
+spec:
+  nodeSelector: {}
+  output: {}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+strategy:
+  type: Docker
+  dockerStrategy:
+    dockerfilePath: Dockerfile-skopeo

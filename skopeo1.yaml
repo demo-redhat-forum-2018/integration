@@ -1,0 +1,18 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "skopeo" 
+spec:
+  triggers: 
+    - type: "ImageChange"
+  source: 
+    contextDir: .
+strategy:
+  type: Docker
+  dockerStrategy:
+      dockerfilePath: Dockerfile-skopeo
+output: 
+  to:
+    kind: "ImageStreamTag"
+    name: "skopeo:latest"
+ 
