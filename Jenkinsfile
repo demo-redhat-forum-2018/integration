@@ -4,7 +4,7 @@ node('maven') {
 
     stage ("Get Source code"){
     
-        slackSend channel: 'monolith', color: 'warning', message: "Warning ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        slackSend channel: 'monolith', color: 'warning', message: "Warning ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>)"
 
     }
     
