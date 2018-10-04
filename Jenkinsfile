@@ -24,6 +24,7 @@
 
 
 node('maven') {
+    /*
     def newVersion
     def azureURL = env.AZURE_URL
     def azureToken = env.AZURE_TOKEN
@@ -31,13 +32,14 @@ node('maven') {
     def ovhToken = env.OVH_TOKEN
     def openShiftTestEnv = env.OPENSHIFT_TEST_ENVIRONMENT
     def openShiftProdEnv = env.OPENSHIFT_PROD_ENVIRONMENT
+    */
     //def appRoute = sh "oc get route jenkins  --template='{{ .spec.host }}'"
    def appRoute =  sh(script: 'oc get route jenkins  --template=\'{{ .spec.host }}\'', returnStdout: true)
    appRoute = "https://${appRoute}"
 
     echo "App route ${appRoute}"
 
-    slackSend channel: 'monolith', color: 'good', message: " --- Pipeline Starting --- on ${ovhURL} Check pipelines <${env.RUN_DISPLAY_URL}|logs>"
+    slackSend channel: 'monolith', color: 'good', message: " --- Pipeline Starting --- on ${env.OVH_URL} Check pipelines <${env.RUN_DISPLAY_URL}|logs>"
 
     stage ("Get Source code"){
     
