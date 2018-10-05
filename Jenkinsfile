@@ -35,12 +35,12 @@ node('maven') {
     
    
 
-   
+    sh "echo ${env.RUN_DISPLAY_URL}"
 
     slackSend channel: 'monolith', color: 'good', message: " --- Pipeline Starting --- \n From : ${env.OVH_URL} \n Job name : ${env.JOB_NAME} \nBuild number : ${env.BUILD_NUMBER} \nCheck <${env.RUN_DISPLAY_URL}|Build logs>\n ---"
 
     stage ("Deploy to test"){
-    sh "echo ${env.RUN_DISPLAY_URL}"
+   
     def appRouteTest =  sh(script: "oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${openShiftTestEnv}", returnStdout: true)
    appRouteTest = "https://${appRouteTest}"
         slackSend channel: 'monolith', color: 'good', message: "--- Test Application Deployed --- \n OCP Cluster target : ${env.AZURE_URL}\n Namespace: ${params.OPENSHIFT_TEST_ENVIRONMENT} \n Access <${appRouteTest}|App> \n ---"
