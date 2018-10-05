@@ -35,7 +35,7 @@ node('maven') {
     
    
 
-    echo "App route ${appRoute}"
+   
 
     slackSend channel: 'monolith', color: 'good', message: " --- Pipeline Starting --- on ${env.OVH_URL} \n Job name : ${env.JOB_NAME} \nBuild number : ${env.BUILD_NUMBER} \nCheck <${env.RUN_DISPLAY_URL}|Build logs>\n ---"
 
