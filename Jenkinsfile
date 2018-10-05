@@ -39,11 +39,21 @@ node('maven') {
 
     echo "App route ${appRoute}"
 
-    slackSend channel: 'monolith', color: 'good', message: " --- Pipeline Starting --- on ${env.OVH_URL} Check pipelines <${env.RUN_DISPLAY_URL}|logs>"
+    slackSend channel: 'monolith', color: 'good', message: " --- Pipeline Starting --- on ${env.OVH_URL} \n Job name : ${env.JOB_NAME} \nBuild number : ${env.BUILD_NUMBER} \nCheck <${env.RUN_DISPLAY_URL}|Build logs>\n ---"
 
-    stage ("Get Source code"){
+    stage ("Deploy to test"){
     
-        slackSend channel: 'monolith', color: 'warning', message: "Warning ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>)"
+    def appRoute =  sh(script: 'oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${params.OPENSHIFT_TEST_ENVIRONMENT}', returnStdout: true)
+   appRoute = "https://${appRoute}"
+        slackSend channel: 'monolith', color: 'good', message: "--- Test Application Deployed --- \n OCP Cluster target : ${env.AZURE_URL}\n Namespace: ${params.OPENSHIFT_TEST_ENVIRONMENT} \n Access <${appRoute}|App> \n ---"
+
+    }
+
+    stage ("Deploy to Prod / Switch New version"){
+    
+    def appRoute =  sh(script: 'oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${params.OPENSHIFT_PROD_ENVIRONMENT}', returnStdout: true)
+   appRoute = "https://${appRoute}"
+        slackSend channel: 'monolith', color: 'good', message: "--- Production Application Deployed --- \n OCP Cluster target : ${env.OVH_URL}\n Namespace: ${params.OPENSHIFT_PROD_ENVIRONMENT} \n Access <${appRoute}|App> \n ---"
 
     }
     
