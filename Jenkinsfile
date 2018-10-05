@@ -49,7 +49,7 @@ node('maven') {
 
     stage ("Deploy to Prod / Switch New version"){
     
-    def appRoute =  sh(script: 'oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${params.OPENSHIFT_PROD_ENVIRONMENT}', returnStdout: true)
+    def appRoute =  sh(script: "oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${params.OPENSHIFT_PROD_ENVIRONMENT}", returnStdout: true)
    appRoute = "https://${appRoute}"
         slackSend channel: 'monolith', color: 'good', message: "--- Production Application Deployed --- \n OCP Cluster target : ${env.OVH_URL}\n Namespace: ${params.OPENSHIFT_PROD_ENVIRONMENT} \n Access <${appRoute}|App> \n ---"
 
