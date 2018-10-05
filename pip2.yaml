@@ -1,0 +1,41 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  creationTimestamp: '2018-09-24T16:32:22Z'
+  name: coolstore-pipeline
+  namespace: cicd-tools
+  resourceVersion: '18927526'
+  selfLink: >-
+    /apis/build.openshift.io/v1/namespaces/rh-forum-2018/buildconfigs/coolstore-pipeline
+  uid: 697516c5-c017-11e8-9cc8-001a4a160174
+spec:
+  nodeSelector: {}
+  output: {}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/demo-redhat-forum-2018/monolith.git'
+    type: Git
+  strategy:
+    jenkinsPipelineStrategy:
+      env:
+        - name: NEXUS_MIRROR_URL
+          value: >-
+            http://gitux01.openhybridcloud.io:8081/repository/redhat-ga/
+        - name: NEXUS_USER
+          value: admin
+        - name: NEXUS_PASSWORD
+          value: admin123
+        - name: NEXUS_REPO_URL
+          value: >-
+            http://gitux01.openhybridcloud.io:8081/repository/coolstore-monolith/
+    type: JenkinsPipeline
+  triggers:
+    - github:
+        secret: 5Mlic4Le
+      type: GitHub
+status:
+  lastVersion: 10
