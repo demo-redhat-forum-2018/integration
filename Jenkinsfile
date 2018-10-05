@@ -33,9 +33,7 @@ node('maven') {
     def openShiftTestEnv = env.OPENSHIFT_TEST_ENVIRONMENT
     def openShiftProdEnv = env.OPENSHIFT_PROD_ENVIRONMENT
     
-    //def appRoute = sh "oc get route jenkins  --template='{{ .spec.host }}'"
-   def appRoute =  sh(script: 'oc get route jenkins  --template=\'{{ .spec.host }}\'', returnStdout: true)
-   appRoute = "https://${appRoute}"
+   
 
     echo "App route ${appRoute}"
 
@@ -43,9 +41,9 @@ node('maven') {
 
     stage ("Deploy to test"){
     
-    def appRoute =  sh(script: 'oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${params.OPENSHIFT_TEST_ENVIRONMENT}', returnStdout: true)
-   appRoute = "https://${appRoute}"
-        slackSend channel: 'monolith', color: 'good', message: "--- Test Application Deployed --- \n OCP Cluster target : ${env.AZURE_URL}\n Namespace: ${params.OPENSHIFT_TEST_ENVIRONMENT} \n Access <${appRoute}|App> \n ---"
+    def appRouteTest =  sh(script: 'oc get route coolstore  --template=\'{{ .spec.host }}\' -n ${params.OPENSHIFT_TEST_ENVIRONMENT}', returnStdout: true)
+   appRouteTest = "https://${appRoute}"
+        slackSend channel: 'monolith', color: 'good', message: "--- Test Application Deployed --- \n OCP Cluster target : ${env.AZURE_URL}\n Namespace: ${params.OPENSHIFT_TEST_ENVIRONMENT} \n Access <${appRouteTest}|App> \n ---"
 
     }
 
